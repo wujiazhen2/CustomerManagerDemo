@@ -1,11 +1,23 @@
 package com.qworldr.customer.service;
 
+import com.qworld.query.QueryParam;
 import com.qworldr.customer.generator.bean.CustomerEntitiy;
+
+import java.util.List;
 
 /**
  * @author wujiazhen
  * @Date 2019/2/2
  */
 public interface CustomerService {
-    void saveCustomer(CustomerEntitiy customerEntitiy);
+
+    CustomerEntitiy saveCustomer(CustomerEntitiy customerEntitiy);
+
+    void updateCusomter(CustomerEntitiy customerEntitiy);
+
+    void delete(int id);
+
+    List<CustomerEntitiy> list(QueryParam queryParam);
+
+    CustomerEntitiy get(int id);
 }
