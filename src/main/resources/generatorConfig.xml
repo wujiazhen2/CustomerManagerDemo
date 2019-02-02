@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <classPathEntry location=".\depends\mysql-connector-java-5.1.34.jar"/>
+    <context id="context_contract">
+        <!-- 为生成的Java模型创建一个toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
+        <!-- Java模型生成equals和hashcode方法 -->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>
+        <!-- 为生成的Java模型类添加序列化接口，并生成serialVersionUID字段 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+
+        <!-- 生成在XML中的<cache>元素 -->
+        <plugin type="org.mybatis.generator.plugins.CachePlugin">
+            <!-- 内置cache配置 -->
+            <property name="cache_eviction" value="LRU" />
+            <property name="cache_flushInterval" value="60000" />
+            <property name="cache_readOnly" value="true" />
+            <property name="cache_size" value="1024" />
+        </plugin>
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+     
+       <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost/customerDemo" userId="root"
+                        password="root"/>
+        <javaModelGenerator targetPackage="com.qworldr.customer.generator.bean"
+                            targetProject="./src/main/java"/>
+        <sqlMapGenerator targetPackage="com.qworldr.customer.generator.dao"
+                         targetProject="./src/main/resources"/>
+        <javaClientGenerator targetPackage="com.qworldr.customer.generator.dao"
+                             targetProject="./src/main/java" type="XMLMAPPER"/>
+        <table tableName="t_customer" domainObjectName="CustomerEntitiy"></table>
+    </context>
+
+</generatorConfiguration>
+        <!--  mvn mybatis-generator:generate   -->
