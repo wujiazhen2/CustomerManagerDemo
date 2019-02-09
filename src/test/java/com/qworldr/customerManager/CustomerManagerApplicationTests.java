@@ -1,6 +1,6 @@
 package com.qworldr.customerManager;
 
-import com.qworld.query.QueryParam;
+import com.qworldr.query.QueryParam;
 import com.qworldr.customer.CustomerManagerApplication;
 import com.qworldr.customer.generator.bean.CustomerEntitiy;
 import com.qworldr.customer.service.CustomerService;

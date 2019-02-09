@@ -1,4 +1,4 @@
-package com.qworld.query;
+package com.qworldr.query;
 
 
 /**
@@ -8,6 +8,7 @@ public class QueryParam {
 
     private int pageSize;
     private int pageNum;
+    private String searchText;
 
     public int getPageSize() {
         return pageSize;
@@ -23,5 +24,13 @@ public class QueryParam {
 
     public void setPageNum(int pageNum) {
         this.pageNum = pageNum;
+    }
+
+    public String getSearchText() {
+        return searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
     }
 }

@@ -1,14 +1,11 @@
 package com.qworldr.customer.controller;
 
-import com.qworld.query.QueryParam;
+import com.qworldr.query.QueryParam;
 import com.qworldr.customer.generator.bean.CustomerEntitiy;
 import com.qworldr.customer.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,12 +19,12 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
     @RequestMapping("/save")
-    public ResponseEntity saveCustomer(CustomerEntitiy customerEntitiy){
+    public ResponseEntity<Integer> saveCustomer(@RequestBody CustomerEntitiy customerEntitiy){
         customerService.saveCustomer(customerEntitiy);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(customerEntitiy.getId());
     }
     @RequestMapping("/update")
-    public ResponseEntity update(CustomerEntitiy customerEntitiy){
+    public ResponseEntity update(@RequestBody CustomerEntitiy customerEntitiy){
         customerService.updateCusomter(customerEntitiy);
         return ResponseEntity.ok().build();
     }
@@ -38,8 +35,8 @@ public class CustomerController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<List<CustomerEntitiy>> list(QueryParam queryParam){
+    @RequestMapping(value="/list")
+    public ResponseEntity<List<CustomerEntitiy>> list(@RequestBody  QueryParam queryParam){
         List<CustomerEntitiy> list = customerService.list(queryParam);
         return ResponseEntity.ok(list);
     }
