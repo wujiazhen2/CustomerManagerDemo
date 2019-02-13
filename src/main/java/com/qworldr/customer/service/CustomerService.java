@@ -3,6 +3,7 @@ package com.qworldr.customer.service;
 import com.qworldr.query.QueryParam;
 import com.qworldr.customer.generator.bean.CustomerEntitiy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public interface CustomerService {
 
     void updateCusomter(CustomerEntitiy customerEntitiy);
 
-    void delete(int id);
+    void delete(ArrayList<Integer> id);
 
     List<CustomerEntitiy> list(QueryParam queryParam);
 

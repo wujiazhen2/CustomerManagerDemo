@@ -7,10 +7,12 @@ import com.qworldr.customer.generator.bean.CustomerEntitiy;
 import com.qworldr.customer.generator.bean.CustomerEntitiyExample;
 import com.qworldr.customer.generator.dao.CustomerEntitiyMapper;
 import com.qworldr.customer.service.CustomerService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -47,19 +49,24 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(ArrayList<Integer> id) {
         CustomerEntitiy customerEntitiy = new CustomerEntitiy();
-        customerEntitiy.setId(id);
         customerEntitiy.setDeleteflag(true);
         customerEntitiy.setDeletetime((int)(System.currentTimeMillis()/1000));
-        customerEntitiyMapper.updateByPrimaryKey(customerEntitiy);
+        CustomerEntitiyExample example = new CustomerEntitiyExample();
+        example.createCriteria().andIdIn(id);
+        customerEntitiyMapper.updateByExampleSelective(customerEntitiy, example);
     }
 
     @Override
     public List<CustomerEntitiy> list(QueryParam queryParam) {
         PageHelper.startPage(queryParam.getPageNum(),queryParam.getPageSize());
         CustomerEntitiyExample example = new CustomerEntitiyExample();
-        example.createCriteria().andDeleteflagEqualTo(Boolean.FALSE).andNameLike(queryParam.getSearchText()+"%");
+        CustomerEntitiyExample.Criteria criteria = example.createCriteria();
+        criteria.andDeleteflagEqualTo(Boolean.FALSE);
+        if(StringUtils.isNotBlank(queryParam.getSearchText())) {
+            criteria.andNameLike(queryParam.getSearchText() + "%");
+        }
         List<CustomerEntitiy> customerEntitiys = customerEntitiyMapper.selectByExample(example);
         return customerEntitiys;
     }
