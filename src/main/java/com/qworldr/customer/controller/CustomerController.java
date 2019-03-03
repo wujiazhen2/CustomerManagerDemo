@@ -1,13 +1,15 @@
 package com.qworldr.customer.controller;
 
-import com.qworldr.customer.generator.bean.CustomerEntitiy;
+import com.qworldr.customer.bean.CustomerEntitiy;
 import com.qworldr.customer.service.CustomerService;
-import com.qworldr.query.QueryParam;
+import com.qworldr.customer.query.QueryParam;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,7 @@ import java.util.List;
  * @Date 2019/2/2
  */
 @RestController
+@RequiresUser
 @RequestMapping("/customer")
 public class CustomerController {
     @Autowired
@@ -30,34 +33,30 @@ public class CustomerController {
 
     @RequestMapping("/save")
     public ResponseEntity<Integer> saveCustomer(@RequestBody CustomerEntitiy customerEntitiy) {
-        customerService.saveCustomer(customerEntitiy);
+        customerService.save(customerEntitiy);
         return ResponseEntity.ok(customerEntitiy.getId());
     }
-
     @RequestMapping("/update")
     public ResponseEntity update(@RequestBody CustomerEntitiy customerEntitiy) {
-        customerService.updateCusomter(customerEntitiy);
+        customerService.update(customerEntitiy);
         return ResponseEntity.ok().build();
     }
-
     @RequestMapping("/delete")
     public ResponseEntity delete(@RequestBody ArrayList<Integer> id) {
         customerService.delete(id);
         return ResponseEntity.ok().build();
     }
-
     @RequestMapping(value = "/list")
     public ResponseEntity<List<CustomerEntitiy>> list(@RequestBody QueryParam queryParam) {
         List<CustomerEntitiy> list = customerService.list(queryParam);
         return ResponseEntity.ok(list);
     }
-
     @GetMapping("/get/{id}")
     public ResponseEntity<CustomerEntitiy> get(@PathVariable int id) {
         CustomerEntitiy customerEntitiy = customerService.get(id);
         return ResponseEntity.ok(customerEntitiy);
     }
-
+    @RequiresPermissions("admin")
     @GetMapping("/export")
     public void export(HttpServletResponse response) throws IOException {
         List<CustomerEntitiy> list = this.customerService.list(new QueryParam());

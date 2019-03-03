@@ -1,4 +1,4 @@
-package com.qworldr.query;
+package com.qworldr.customer.query;
 
 
 /**
